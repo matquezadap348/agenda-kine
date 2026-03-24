@@ -10,4 +10,14 @@ export default defineConfig({
         }),
         react(),
     ],
+    server: {
+        watch: {
+            usePolling: true,
+            ignored: ['**/node_modules/**', '**/vendor/**'],
+        },
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost',
+        },
+    },
 });

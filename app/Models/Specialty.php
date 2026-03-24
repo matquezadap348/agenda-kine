@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Specialty extends Model
 {
-    // Le indicamos a Laravel que la tabla se llama así en la DB
+    use HasFactory;
+
     protected $table = 'especialidades';
 
-    // Definimos qué campos se pueden llenar masivamente
     protected $fillable = [
         'nombre',
         'descripcion',
     ];
+
+    public function profesionals()
+    {
+        return $this->hasMany(Profesional::class, 'especialidad_id');
+    }
 }

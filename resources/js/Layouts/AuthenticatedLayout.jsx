@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
+    const roles = user.roles; // Extraemos los roles inyectados en el Middleware
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
@@ -29,24 +30,41 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
+                                
                                 <NavLink
-                                    href={route('especialidades.index')}
-                                    active={route().current('especialidades.*')}
+                                    href={route('citas.index')}
+                                    active={route().current('citas.*')}
                                 >
-                                    Especialidades
+                                    Agenda
                                 </NavLink>
-                                <NavLink
-                                    href={route('profesionales.index')}
-                                    active={route().current('profesionales.*')}
-                                >
-                                    Profesionales
-                                </NavLink>
-                                <NavLink
-                                    href={route('pacientes.index')}
-                                    active={route().current('pacientes.*')}
-                                >
-                                    Pacientes
-                                </NavLink>
+
+                                {/* Solo Admin y Secretaria ven Profesionales y Pacientes */}
+                                {(roles.includes('admin') || roles.includes('secretaria')) && (
+                                    <>
+                                        <NavLink
+                                            href={route('profesionales.index')}
+                                            active={route().current('profesionales.*')}
+                                        >
+                                            Profesionales
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('pacientes.index')}
+                                            active={route().current('pacientes.*')}
+                                        >
+                                            Pacientes
+                                        </NavLink>
+                                    </>
+                                )}
+
+                                {/* Solo el Admin ve Especialidades */}
+                                {roles.includes('admin') && (
+                                    <NavLink
+                                        href={route('especialidades.index')}
+                                        active={route().current('especialidades.*')}
+                                    >
+                                        Especialidades
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -78,16 +96,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>
-                                            Profile
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route('logout')}
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('logout')} method="post" as="button">Log Out</Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
@@ -95,30 +105,17 @@ export default function AuthenticatedLayout({ header, children }) {
 
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown((previousState) => !previousState)
-                                }
+                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
                             >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
+                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
                                         className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
+                                        strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
                                         className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
+                                        strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"
                                     />
                                 </svg>
                             </button>
@@ -128,30 +125,19 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route('especialidades.index')}
-                            active={route().current('especialidades.*')}
-                        >
-                            Especialidades
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route('profesionales.index')}
-                            active={route().current('profesionales.*')}
-                        >
-                            Profesionales
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route('pacientes.index')}
-                            active={route().current('pacientes.*')}
-                        >
-                            Pacientes
-                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>Dashboard</ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('citas.index')} active={route().current('citas.*')}>Agenda</ResponsiveNavLink>
+                        
+                        {(roles.includes('admin') || roles.includes('secretaria')) && (
+                            <>
+                                <ResponsiveNavLink href={route('profesionales.index')} active={route().current('profesionales.*')}>Profesionales</ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('pacientes.index')} active={route().current('pacientes.*')}>Pacientes</ResponsiveNavLink>
+                            </>
+                        )}
+                        
+                        {roles.includes('admin') && (
+                            <ResponsiveNavLink href={route('especialidades.index')} active={route().current('especialidades.*')}>Especialidades</ResponsiveNavLink>
+                        )}
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">
@@ -159,18 +145,9 @@ export default function AuthenticatedLayout({ header, children }) {
                             <div className="text-base font-medium text-gray-800">{user.name}</div>
                             <div className="text-sm font-medium text-gray-500">{user.email}</div>
                         </div>
-
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
-                                Perfil
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
-                                Cerrar Sesión
-                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">Cerrar Sesión</ResponsiveNavLink>
                         </div>
                     </div>
                 </div>

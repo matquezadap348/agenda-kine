@@ -18,4 +18,9 @@ class Paciente extends Model
         'fecha_nacimiento',
         'direccion',
     ];
+
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
+    }
 }

@@ -8,12 +8,22 @@ use Inertia\Inertia;
 
 class PacienteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pacientes = Paciente::latest()->get();
+        $search = $request->input('search');
+
+        $pacientes = Paciente::when($search, function ($query, $search) {
+                $query->where('nombre', 'like', "%{$search}%")
+                      ->orWhere('apellido', 'like', "%{$search}%")
+                      ->orWhere('rut', 'like', "%{$search}%");
+            })
+            ->orderBy('nombre', 'asc')
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Pacientes/Index', [
             'pacientes' => $pacientes,
+            'filters' => $request->only(['search'])
         ]);
     }
 

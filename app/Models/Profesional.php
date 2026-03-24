@@ -21,4 +21,9 @@ class Profesional extends Model
     {
         return $this->belongsTo(Specialty::class, 'especialidad_id');
     }
+
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
+    }
 }

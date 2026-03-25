@@ -9,14 +9,23 @@ use Inertia\Inertia;
 
 class ProfesionalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $profesionales = Profesional::with('specialty')->latest()->get();
-        $especialidades = Specialty::orderBy('nombre')->get();
+        $search = $request->input('search');
+
+        $profesionales = Profesional::with('specialty')
+            ->when($search, function ($query, $search) {
+                $query->where('nombre', 'like', "%{$search}%")
+                    ->orWhere('apellido', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Profesionales/Index', [
             'profesionales' => $profesionales,
-            'especialidades' => $especialidades,
+            'especialidades' => fn () => Specialty::select('id', 'nombre')->orderBy('nombre')->get(),
+            'filters' => ['search' => $search]
         ]);
     }
 

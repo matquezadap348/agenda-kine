@@ -27,13 +27,10 @@ class CitaController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $pacientes = Paciente::orderBy('nombre')->get();
-        $profesionales = Profesional::with('specialty')->orderBy('nombre')->get();
-
         return Inertia::render('Citas/Index', [
             'citas' => $citas,
-            'pacientes' => $pacientes,
-            'profesionales' => $profesionales,
+            'pacientes' => fn () => Paciente::select('id', 'nombre', 'apellido', 'rut')->orderBy('nombre')->get(),
+            'profesionales' => fn () => Profesional::with('specialty:id,nombre')->select('id', 'nombre', 'apellido', 'especialidad_id')->orderBy('nombre')->get(),
             'filters' => $request->only(['search'])
         ]);
     }

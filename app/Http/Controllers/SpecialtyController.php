@@ -8,12 +8,20 @@ use Inertia\Inertia;
 
 class SpecialtyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $especialidades = Specialty::all();
+        $search = $request->input('search');
+
+        $especialidades = Specialty::when($search, function ($query, $search) {
+                $query->where('nombre', 'like', "%{$search}%");
+            })
+            ->orderBy('nombre')
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Especialidades/Index', [
-            'especialidades' => $especialidades
+            'especialidades' => $especialidades,
+            'filters' => ['search' => $search]
         ]);
     }
 

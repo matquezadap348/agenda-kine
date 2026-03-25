@@ -16,7 +16,12 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                
+                background: 'var(--background)',
+                foreground: 'var(--foreground)',
+                card: 'var(--card)',
+                'card-foreground': 'var(--card-foreground)',
+                border: 'var(--border)',
+                ring: 'var(--ring)',
                 kine: {
                     50: '#f0fdfa',
                     100: '#ccfbf1',

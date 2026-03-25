@@ -12,50 +12,50 @@ export default function Dashboard({ stats, proximas_citas }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-kine-600">
-                            <div className="text-sm font-medium text-gray-500 truncate">Pacientes Registrados</div>
-                            <div className="mt-1 text-3xl font-semibold text-gray-900">{stats.pacientes}</div>
+                        <div className="bg-card overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-kine-600">
+                            <div className="text-sm font-medium text-foreground opacity-80 truncate">Pacientes Registrados</div>
+                            <div className="mt-1 text-3xl font-semibold text-foreground">{stats.pacientes}</div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-kine-600">
-                            <div className="text-sm font-medium text-gray-500 truncate">Kinesiólogos Activos</div>
-                            <div className="mt-1 text-3xl font-semibold text-gray-900">{stats.profesionales}</div>
+                        <div className="bg-card overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-kine-600">
+                            <div className="text-sm font-medium text-foreground opacity-80 truncate">Kinesiólogos Activos</div>
+                            <div className="mt-1 text-3xl font-semibold text-foreground">{stats.profesionales}</div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-blue-500">
-                            <div className="text-sm font-medium text-gray-500 truncate">Citas para Hoy</div>
-                            <div className="mt-1 text-3xl font-semibold text-gray-900">{stats.citas_hoy}</div>
+                        <div className="bg-card overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-blue-500">
+                            <div className="text-sm font-medium text-foreground opacity-80 truncate">Citas para Hoy</div>
+                            <div className="mt-1 text-3xl font-semibold text-foreground">{stats.citas_hoy}</div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-yellow-500">
-                            <div className="text-sm font-medium text-gray-500 truncate">Citas Pendientes</div>
-                            <div className="mt-1 text-3xl font-semibold text-gray-900">{stats.citas_pendientes}</div>
+                        <div className="bg-card overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-yellow-500">
+                            <div className="text-sm font-medium text-foreground opacity-80 truncate">Citas Pendientes</div>
+                            <div className="mt-1 text-3xl font-semibold text-foreground">{stats.citas_pendientes}</div>
                         </div>
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 border-b border-gray-200">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Próximas Atenciones</h3>
+                    <div className="bg-card overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6 border-b border-border">
+                            <h3 className="text-lg font-medium text-foreground mb-4">Próximas Atenciones</h3>
                             <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
+                                <table className="min-w-full divide-y divide-border">
+                                    <thead className="bg-background">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha y Hora</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profesional</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-foreground opacity-80 uppercase tracking-wider">Fecha y Hora</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-foreground opacity-80 uppercase tracking-wider">Paciente</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-foreground opacity-80 uppercase tracking-wider">Profesional</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-foreground opacity-80 uppercase tracking-wider">Estado</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
+                                    <tbody className="bg-card divide-y divide-border">
                                         {proximas_citas.map((cita) => (
-                                            <tr key={cita.id} className="hover:bg-gray-50 transition">
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            <tr key={cita.id} className="hover:bg-background transition">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
                                                     {new Date(cita.fecha_hora).toLocaleString('es-CL', {
                                                         dateStyle: 'short',
                                                         timeStyle: 'short',
                                                     })}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground opacity-80">
                                                     {cita.paciente?.nombre} {cita.paciente?.apellido}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground opacity-80">
                                                     Klgo. {cita.profesional?.nombre} {cita.profesional?.apellido}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
@@ -71,7 +71,7 @@ export default function Dashboard({ stats, proximas_citas }) {
                                         ))}
                                         {proximas_citas.length === 0 && (
                                             <tr>
-                                                <td colSpan="4" className="px-6 py-8 text-center text-sm text-gray-500">
+                                                <td colSpan="4" className="px-6 py-8 text-center text-sm text-foreground opacity-80">
                                                     No hay atenciones programadas a futuro.
                                                 </td>
                                             </tr>

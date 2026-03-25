@@ -7,13 +7,13 @@ export default function Pagination({ links }) {
                 link.url === null ? (
                     <div
                         key={key}
-                        className="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded"
+                        className="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-foreground opacity-50 border border-border rounded"
                         dangerouslySetInnerHTML={{ __html: link.label }}
                     />
                 ) : (
                     <Link
                         key={key}
-                        className={`mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-kine-500 focus:text-kine-500 ${link.active ? 'bg-kine-600 text-white' : ''}`}
+                        className={`mr-1 mb-1 px-4 py-3 text-sm leading-4 border border-border rounded text-foreground hover:bg-background focus:border-kine-500 focus:text-kine-500 ${link.active ? 'bg-kine-600 text-white' : 'bg-card'}`}
                         href={link.url}
                         dangerouslySetInnerHTML={{ __html: link.label }}
                     />
